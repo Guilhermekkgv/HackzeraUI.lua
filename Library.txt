@@ -1,9 +1,8 @@
-local HackzeraUI = {}
+local LinuxUI = {}
 
 local localCore = game:GetService("CoreGui")
 local localTween = game:GetService("TweenService")
 local localUIS = game:GetService("UserInputService")
-local localRun = game:GetService("RunService")
 
 function createInstance(class, props)
     local instance = Instance.new(class)
@@ -35,11 +34,11 @@ local function dragFrame(frame)
     end)
 end
 
-function HackzeraUI:CreateHub(name)
+function LinuxUI:CreateHub(name)
     local hub = {}
 
     local screen = createInstance("ScreenGui", {
-        Name = "HackzeraUI_" .. name,
+        Name = "LinuxUI_" .. name,
         Parent = self.localCore,
         ResetOnSpawn = false,
         ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -71,7 +70,7 @@ function HackzeraUI:CreateHub(name)
         Position = UDim2.new(0, 10, 0, 0),
         Size = UDim2.new(0, 300, 0, 40),
         Font = Enum.Font.SourceSansBold,
-        Text = name or "Hackzera Hub",
+        Text = name or "Linux Hub",
         TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 22
     })
@@ -590,23 +589,7 @@ function HackzeraUI:CreateHub(name)
         Visible = false
     })
 
-    local clockFunc = localRun:IsRunning() and time or os.clock
-    local lastFrame, currentTime
-    local frameTable = {}
-
-    local function updateFPS()
-        currentTime = clockFunc()
-        for i = #frameTable, 1, -1 do
-            frameTable[i + 1] = frameTable[i] >= currentTime - 1 and frameTable[i] or nil
-        end
-        frameTable[1] = currentTime
-        hub.fps = tostring(math.floor(clockFunc() - lastFrame >= 1 and #frameTable or #frameTable / (clockFunc() - lastFrame)))
-    end
-
-    lastFrame = clockFunc()
-    localRun.Heartbeat:Connect(updateFPS)
-
     return hub
 end
 
-return HackzeraUI
+return LinuxUI
